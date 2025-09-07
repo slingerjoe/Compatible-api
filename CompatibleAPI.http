@@ -1,0 +1,111 @@
+@CompatibleAPI_HostAddress = http://localhost:5107
+
+GET {{CompatibleAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+### Test Image Upload Endpoints
+
+### Get upload limits
+GET {{baseUrl}}/api/images/limits
+
+### Upload an image for a profile
+POST {{baseUrl}}/api/images/upload/{{profileId}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test-image.jpg"
+Content-Type: image/jpeg
+
+< ./test-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Get all photos for a profile
+GET {{baseUrl}}/api/images/profile/{{profileId}}
+
+### Get a specific photo
+GET {{baseUrl}}/api/images/{{photoId}}
+
+### Set a photo as main
+PUT {{baseUrl}}/api/images/{{photoId}}/set-main
+
+### Delete a photo
+DELETE {{baseUrl}}/api/images/{{photoId}}
+
+### Test Profile Endpoints
+
+### Get all profiles
+GET {{baseUrl}}/api/profiles
+
+### Get a specific profile
+GET {{baseUrl}}/api/profiles/{{profileId}}
+
+### Create a new profile
+POST {{baseUrl}}/api/profiles
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "age": 25,
+  "bio": "This is a test profile"
+}
+
+### Update a profile
+PUT {{baseUrl}}/api/profiles/{{profileId}}
+Content-Type: application/json
+
+{
+  "id": "{{profileId}}",
+  "name": "Updated User",
+  "age": 26,
+  "bio": "This is an updated test profile"
+}
+
+### Get potential matches
+GET {{baseUrl}}/api/profiles/potential-matches?profileId={{profileId}}&count=10
+
+### Like a match
+POST {{baseUrl}}/api/profiles/like/{{profileId}}/{{likedProfileId}}
+
+### Dislike a match
+POST {{baseUrl}}/api/profiles/dislike/{{profileId}}/{{dislikedProfileId}}
+
+### Test Match Endpoints
+
+### Get accepted matches
+GET {{baseUrl}}/api/matches/accepted/{{profileId}}
+
+### Test Message Endpoints
+
+### Get messages for a match
+GET {{baseUrl}}/api/messages/match/{{matchId}}?profileId={{profileId}}
+
+### Send a message
+POST {{baseUrl}}/api/messages/send
+Content-Type: application/json
+
+{
+  "matchId": "{{matchId}}",
+  "senderProfileId": "{{profileId}}",
+  "content": "Hello! How are you?"
+}
+
+### Get unread messages
+GET {{baseUrl}}/api/messages/unread/{{profileId}}
+
+### Mark message as read
+POST {{baseUrl}}/api/messages/read/{{messageId}}?profileId={{profileId}}
+
+### Get unread message count
+GET {{baseUrl}}/api/messages/unread-count/{{profileId}}
+
+### Send typing indicator
+POST {{baseUrl}}/api/messages/typing
+Content-Type: application/json
+
+{
+  "matchId": "{{matchId}}",
+  "profileId": "{{profileId}}",
+  "isTyping": true
+}
